@@ -2,7 +2,7 @@
 <img src="https://i.imgur.com/RtQ7SeN.png" alt="DNS"/>
 </p>
 
-<h1>Domain Name Service(DNS) Management and Troubleshooting </h1>
+<h1>Domain Name System(DNS) Management and Troubleshooting </h1>
 This tutorial outlines how to manage DNS records and understand DNS cache behavior.
 
 .<br />
@@ -39,52 +39,51 @@ Step 2 Local DNS Cache Exercise
 
 
 
-<h2>Deployment and Configuration Steps</h2>
+<h2>Testing & Implementation Steps</h2>
 
 <p>
-<img src="https://i.imgur.com/actCv1S.png" height="80%" width="80%" alt="Static IP Address"/>
+<img src="https://i.imgur.com/gJwk8Js.png" height="80%" width="80%" alt="Pinging"/>
 </p>
 <p>
-Setting the Domain Controller's IP Address to static ensures that it will not change once it's configured to the Client's DNS server.  
+DNS converts computer names to IP address. I attempted to ping(check for connectivity) to "mainframe." There was no connectivity because there is no DNS record for "mainframe."  
 </p>
 <br />
 
 <p>
-<img src="https://i.imgur.com/awG5qO5.png" height="80%" width="80%" alt="Configure Client's DNS Server to the Domain Controller"/>
+<img src="https://i.imgur.com/tpmb2Vi.png" height="80%" width="80%" alt="Create Mainframe DNS record"/>
 </p>
 <p>
-Be sure that the Client's DNS Server is configured to the Domain Controller's static IP Address.
+I created an A-Record titled "mainframe." I made the IP Address the same as my static IP Address for my Domain Controller just to ensure I could ping it successfully.
 </p>
 <br />
 
 <p>
-<img src="https://i.imgur.com/4Z5sH8D.png" height="80%" width="80%" alt="Install Active Directory"/>
+<img src="https://i.imgur.com/wTdB4k0.png" height="80%" width="80%" alt="Successful Ping"/>
 </p>
 <p>
-Make sure you remember the forest domain you create. 
+I was able to ping the "mainframe" after creating the A-Record. 
   
   
-  <img src="https://i.imgur.com/FqyIgdo.png" height="80%" width="80%" alt="Domain User Permissions"/>
+  <img src="https://i.imgur.com/7zWb6n9.png" height="80%" width="80%" alt="Changed Mainframe IP Address"/>
 </p>
 <p>
-I allowed domain users access to remote desktop.
+I changed the IP Address to 8.8.8.8. I wanted to check and see if I would still be able to successfully ping "mainframe."
 </p>
 
-<img src="https://i.imgur.com/Jz7uKxX.png" height="80%" width="80%" alt="Powershell Script to Create Users"/>
+<img src="https://i.imgur.com/XNOu0zs.png" height="80%" width="80%" alt="Ping Successful due to local cache"/>
 </p>
 <p>
-It's very important that you use Powershell_ise as an administrator. By using the script I was able to automate the process of creating 10,000 users.
+ I was able to ping "mainframe" successfully. When I checked the IP Address associated with the ping it was still pointing to the old IP Address from when I intially created the A-Record. The new IP Address is 8.8.8.8. DNS checks the local cache,  then local host file, and lastly checks DNS.
 </p>
 
-<img src="https://i.imgur.com/qUaM6FB.png" height="80%" width="80%" alt="Users Being Created"/>
+<img src="https://i.imgur.com/IFEn7qD.png" height="80%" width="80%" alt="Flush DNS"/>
 </p>
 <p>
-These are some of the users being created.
+I flushed the DNS server to clear the local cache. You have to run the CLI as an admin to flush the DNS server. I wanted to observe what would happen after clearing the local cache. I was able to ping the "mainframe" successfully. The IP Address has been updated to 8.8.8.8. 
 </p>
-
-<img src="https://i.imgur.com/ZQsOXSR.png" height="80%" width="80%" alt="Updating Permissions of Users"/>
 </p>
-<p>
-I made changes to users permissions. I reset passwords, disabled accounts, etc. I then tested those permissions to ensure they worked. I had lots of fun building this lab.
+</p>
+</p>
+This lab really helped solidify my knowledge of the Domain Name System. I was able to see exactly how the system works in real time.
 </p>
 
