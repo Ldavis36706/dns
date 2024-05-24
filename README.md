@@ -12,7 +12,7 @@ This tutorial outlines how to manage DNS records and understand DNS cache behavi
 - Microsoft Azure (Virtual Machines/Compute)
 - Remote Desktop
 - Active Directory Domain Services
-- PowerShell
+- Command Line Interface
 
 <h2>Operating Systems Used </h2>
 
