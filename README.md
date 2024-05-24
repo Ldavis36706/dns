@@ -1,8 +1,8 @@
 <p align="center">
-<img src="https://i.imgur.com/pU5A58S.png" alt="Microsoft Active Directory Logo"/>
+<img src="https://i.imgur.com/RtQ7SeN.png" alt="DNS"/>
 </p>
 
-<h1>On-premises Active Directory Deployed in the Cloud (Azure)</h1>
+<h1>Domain Name Service(DNS) Management and Troubleshooting </h1>
 This tutorial outlines how to manage DNS records and understand DNS cache behavior.
 
 .<br />
@@ -21,50 +21,23 @@ This tutorial outlines how to manage DNS records and understand DNS cache behavi
 
 <h2>High-Level Deployment and Configuration Steps</h2>
 
-Step 1 Create a Domain Controller virtual machine (Windows Server 2022) 
-  - Set Domain Controller’s NIC Private IP address to be static 
-
-Step 2 Create the Client virtual machine (Windows 10).
-  - Use the same Resource Group and Vnet that your Domain Controller is in.
-
-Step 3 Ensure Connectivity between the client and Domain Controller
-  - Login to the Domain Controller and enable ICMPv4 in on the local windows Firewall
-  - Check back at Client-1 to see the ping succeed
-
-Step 4 Install Active Directory
-  - Login to Domain Controller virtual machine and install Active Directory Domain Services
-  - Promote as a Domain Controller: Setup a new forest as mydomain.com (can be anything, just remember what it is)
-  - Restart and then log back into Domain Controller virtual machine as user you just created: keshadomain.com\labuser(in my example)
- 
-  
-Step 5 Create an Admin and Normal User Account in Active Directory
-  - In Active Directory Users and Computers (ADUC), create an Organizational Unit (OU) called “_EMPLOYEES”
-  - Create a new OU named “_ADMINS”
-  - Create a new employee named “Jane Doe” (same password) with the username of “jane_admin”
-  - Add jane_admin to the “Domain Admins” Security Group
-  - Log out/close the Remote Desktop connection to Domain Controller and log back in as “mydomain.com\jane_admin”
-  - User jane_admin as your admin account from now on
-
- Step 6 Join Client-1 to your domain (mydomain.com)
-  - From the Azure Portal, set Client-1’s DNS settings to the Domain Controller’s Private IP address
-  - From the Azure Portal, restart Client-1
-  - Login to Client-1 (Remote Desktop) as the original local admin (labuser) and join it to the domain (computer will restart)
-  - Login to the Domain Controller (Remote Desktop) and verify Client-1 shows up in Active Directory Users and Computers (ADUC) inside the “Computers” container on the root of the domain
+Step 1 A-Record Exercise
+  - Connect/log into Domain Controller virtual machine as your domain admin account (mydomain.com\jane_admin)
+  - Connect/log into Client virtual machine as an admin (mydomain\jane_admin)
+  - From Client virtual machine try to ping “mainframe” notice that it fails
+  - Nslookup “mainframe” notice that it fails (no DNS record)
+  - Create a DNS A-record on Domain Controller virtual machine for “mainframe” and have it point to Domain Controller virtual machine Private IP address
+  - Go back to Client virtual machine and try to ping it. Observe that it works
 
 
- Step 7 Setup Remote Desktop for non-administrative users on Client-1
-  - Log into Client-1 as mydomain.com\jane_admin and open system properties
-  - Click “Remote Desktop”
-  - Allow “domain users” access to remote desktop
-  - You can now log into Client-1 as a normal, non-administrative user now
+Step 2 Local DNS Cache Exercise
+  - Go back to Domain Controller virtual machine and change mainframe’s record address to 8.8.8.8
+  - Go back to Client virtual machine and ping “mainframe” again. Observe that it still pings the old address
+  - Observe the local dns cache. (ipconfig /displaydns)
+  - Flush the DNS cache (ipconfig /flushdns). Observe that the cache is empty
+  - Attempt to ping “mainframe” again. Observe the address of the new record is showing up
 
 
- Step 8 Create a bunch of additional users and attempt to log into client-1 with one of the users
-  - Login to Domain Controller as jane_admin
-  - Open PowerShell_ise as an administrator
-  - Create a new File and paste the contents of the script into it (https://github.com/joshmadakor1/AD_PS/blob/master/Generate-Names-Create-Users.ps1)
-  - Run the script and observe the accounts being created
-  - When finished, open ADUC and observe the accounts in the appropriate OU
 
 <h2>Deployment and Configuration Steps</h2>
 
