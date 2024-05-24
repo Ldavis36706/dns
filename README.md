@@ -19,7 +19,7 @@ This tutorial outlines how to manage DNS records and understand DNS cache behavi
 - Windows Server 2022
 - Windows 10 (21H2)
 
-<h2>High-Level Deployment and Configuration Steps</h2>
+<h2>High-Level Overview Steps</h2>
 
 Step 1 A-Record Exercise
   - Connect/log into Domain Controller virtual machine as your domain admin account (mydomain.com\jane_admin)
